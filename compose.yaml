@@ -1,0 +1,11 @@
+services:
+  windprocure:
+    build: .
+    ports:
+      - "8080:8000"
+    environment:
+      PORT: "8000"
+    read_only: true
+    tmpfs:
+      - /tmp
+    restart: unless-stopped

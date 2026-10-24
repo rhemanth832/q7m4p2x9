@@ -1,0 +1,63 @@
+# WindProcure demonstration
+
+Two parts, each under five minutes. Generic synthesized narration; real app views.
+
+## 00:00:00 — Part 1: A clearer view of tomorrow
+
+Welcome to Wind Procure, a pilot for Great Britain's day-ahead electricity procurement team. The product starts with two questions. What wind forecast could the team actually have seen when making its decision? And how wrong has that forecast been? This dashboard brings those answers together, with an explicit decision cutoff and an audit trail. The pilot covers decisions made in January twenty twenty-six, using only Elexon's wind forecasts and wind generation outturn. The first part presents the customer experience. The second explains the implementation for a technical reviewer.
+
+## 00:00:29 — Part 1: Replay an actual procurement decision
+
+Here we are replaying the decision on the fourteenth of January, at nine fifty G M T, for delivery on the fifteenth. The wind forecast averages eleven point six eight gigawatts over its native target points, with a peak of fifteen point eight three gigawatts. The solid line shows the forecast that was eligible at the cutoff. The dashed line shows the actual outturn, available afterwards for evaluation. The daily mean absolute error is one point zero nine gigawatts. These actuals are hindsight, clearly separated from information used for the decision.
+
+## 00:00:56 — Part 1: Change the cutoff. Change the evidence.
+
+Changing the cutoff to nine twenty makes the point-in-time rule tangible. The nine thirty publication is now too late, so the app selects the earlier eligible forecast. The mean changes to eleven point six one gigawatts. A chart based on today's latest revision would miss that distinction and could make historical performance look better than it was. Wind Procure selects a forecast separately for every delivery target, using only publications at or before the chosen cutoff. The available presets cover N two E X, E P E X and an early review.
+
+## 00:01:23 — Part 1: Follow the publication trail
+
+The forecast explorer shows exactly what was published and when. For the nine fifty decision, the nine thirty issue is selected. Later issues remain visible for auditing, but are marked as excluded. The settlement table also preserves each target's publication time and lead time. There is an important coverage detail: the retrieved forecast series has hourly targets, while actual outturn is half-hourly. We compare exact matching start times only. Missing half-hour forecasts stay missing. The monthly evaluation therefore has seven hundred and forty-four matched points, rather than an invented full profile.
+
+## 00:01:54 — Part 1: Understand the size and direction of error
+
+At the nine fifty cutoff, the January mean absolute error is about two gigawatts. Root mean square error is two point five gigawatts, so larger misses matter. The positive bias of one point seven three gigawatts means the forecast tended to exceed the outturn. Over eighty-four percent of matched targets overforecast wind. Weighted absolute percentage error is seventeen point six eight percent. The daily bars help identify days worth reviewing. These figures describe the difference between the requested Elexon series; metering scope and curtailment may also contribute, so this is not a pure attribution of forecast skill.
+
+## 00:02:24 — Part 1: Use a historical scenario with clear limits
+
+The decision brief adds an empirical wind shortfall scenario. It uses up to fourteen earlier completed delivery days, and only actual records published by the historical decision cutoff. At least forty-eight matched points are required. For the fourteenth of January, the historical ninetieth-percentile shortfall is four point six gigawatts, based on two hundred and eighty-eight earlier points. Early January deliberately shows insufficient history, as seen here. This scenario is not a calibrated confidence interval or a purchase instruction. It makes uncertainty visible without suggesting more certainty than the data support.
+
+## 00:02:55 — Part 1: Take the evidence to the trading desk
+
+The team can export a decision brief, the forty-eight-period settlement C S V, or a J S O N evidence bundle with source provenance. The methodology page explains every assumption and links the original datasets. The result is a shared basis for a procurement conversation: a known forecast, a quantified historical error, and a traceable decision cutoff. This pilot does not know the client's demand, contracted wind share or other resources. A portfolio-specific purchase quantity needs those additional inputs. The value here is a transparent national wind signal that a trading team can inspect and challenge.
+
+## 00:03:26 — Part 2: Technical review: a small, explicit architecture
+
+Now for the internal technical review. The architecture has three boundaries. An offline Python ingestion command retrieves and validates the Elexon records. A deterministic analysis layer indexes revisions, selects admissible forecasts, joins exact timestamps and calculates metrics. Fast A P I exposes the results to a React and TypeScript frontend. The fixed archive is small enough that a database is unnecessary for this pilot. The production request path makes no upstream network call and writes no persistent state. This keeps the historical replay reproducible and suitable for a serverless deployment.
+
+## 00:03:57 — Part 2: Data ingestion preserves provenance
+
+In backend slash ingest dot py, forecast requests filter publication windows, while actual requests filter settlement dates and wind fuel type. Forecast context begins on the thirty-first of December; actual context includes the first of January. The decision evaluation itself stays strictly within January decisions. There are sixty-four archived daily source requests, eighteen thousand six hundred and eighty-eight forecast revisions, and one thousand five hundred and thirty-six wind actuals. Bounded retries handle transient failures. Identical duplicate keys are collapsed; conflicting equal-publication values fail validation. Every response has a retrieval timestamp and a S H A two fifty-six hash.
+
+## 00:04:32 — Part 2: The core selector is easy to audit
+
+The key implementation is in backend slash analysis dot py. Each target's revisions are sorted by publication time. A binary search chooses the latest publication less than or equal to the cutoff. Selection is per target, rather than assuming that one file contains everything. A forty-eight-period delivery grid preserves every actual half-hour. Forecasts and actuals join only on identical target timestamps; missing values remain null, and zero is a valid observation. Error is forecast minus actual in megawatts. The frontend converts to gigawatts only for presentation, and never recalculates the statistical results.
+
+## 00:05:04 — Part 2: Prevent hindsight in the risk estimate
+
+There are two distinct actual-data views. Retrospective evaluation uses the archived outturn. Decision-time risk restricts actual revisions to those published by the historical current cutoff, and also excludes incomplete delivery days. Earlier forecasts are selected using their own original decision cutoff. This avoids a subtler form of leakage in which future actuals train an apparently historical risk estimate. The tests verify that adding a later forecast or a future actual revision cannot change the selected decision-time risk. The empirical quantile is deliberately simple, with its sample count and limitations exposed to the user.
+
+## 00:05:36 — Part 2: A clear API and a transparent frontend
+
+The H T T P layer is in backend slash app dot py. It validates January decision dates and twenty-four-hour cutoff strings, returning four twenty-two for invalid inputs. Day, month, metadata, C S V and health endpoints are documented through Fast A P I. On the frontend, src slash data dot t s owns abortable requests and exports; the chart components are S V G. A static Q A preview can load results generated by the same Python code, and is explicitly labeled. The public Vercel app is confirmed to use the real Python A P I.
+
+## 00:06:05 — Part 2: Review the checks that protect the contract
+
+The verification suite focuses on the analytical contract. Fifteen backend tests passed, covering cutoff equality, future revision exclusion, per-target selection, missing data, valid zeros, metric arithmetic and the February delivery boundary. They also compare the Python-generated preview with the A P I. TypeScript and the production build passed. Anonymous requests to the live deployment returned the application and Python endpoints successfully. Browser checks covered cutoff changes, publication history, filters, an empty search, date boundaries and a real C S V download. The source package records both the checks performed and the environment limits.
+
+## 00:06:39 — Part 2: Reproduce and deploy the same product
+
+For local reproduction, Docker Compose builds the React frontend in a Node stage, then runs the Python application as a non-root user. The container honors the port environment variable and has a health check. Without Docker, npm run dev colon full starts both development services after dependency installation. Docker itself was not available in this execution environment, so its local build is not claimed as verified; a continuous-integration smoke test is supplied. Production is deployed on Vercel, with the compressed archive bundled alongside the Python function and static frontend. No secrets or new Elexon request are needed at runtime.
+
+## 00:07:11 — Part 2: A reviewable first version, with a clear next step
+
+The R E A D M E maps every directory, explains startup and deployment, and explicitly discloses Chat G P T and Codex assistance. This demonstration uses a generic synthesized narrator, not the candidate's voice. The technical design and analysis notes make knowledge transfer straightforward. For a production phase, first reconcile the forecast and outturn coverage, then add authorized portfolio demand, contracts and allocation inputs. A longer approved history would support stronger calibration. This first version delivers a usable, publicly accessible portal and a reproducible analysis, with each claim tied to the evidence the pilot actually has.

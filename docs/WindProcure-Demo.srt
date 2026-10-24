@@ -1,0 +1,411 @@
+1
+00:00:00,000 --> 00:00:04,229
+Welcome to Wind Procure, a pilot for Great Britain's day-ahead electricity procurement team.
+
+2
+00:00:04,229 --> 00:00:06,181
+The product starts with two questions.
+
+3
+00:00:06,181 --> 00:00:10,410
+What wind forecast could the team actually have seen when making its decision?
+
+4
+00:00:10,410 --> 00:00:12,688
+And how wrong has that forecast been?
+
+5
+00:00:12,688 --> 00:00:17,567
+This dashboard brings those answers together, with an explicit decision cutoff and an audit trail.
+
+6
+00:00:17,567 --> 00:00:23,423
+The pilot covers decisions made in January twenty twenty-six, using only Elexon's wind forecasts and wind generation outturn.
+
+7
+00:00:23,423 --> 00:00:25,701
+The first part presents the customer experience.
+
+8
+00:00:25,701 --> 00:00:28,629
+The second explains the implementation for a technical reviewer.
+
+9
+00:00:29,279 --> 00:00:35,611
+Here we are replaying the decision on the fourteenth of January, at nine fifty G M T, for delivery on the fifteenth.
+
+10
+00:00:35,611 --> 00:00:42,231
+The wind forecast averages eleven point six eight gigawatts over its native target points, with a peak of fifteen point eight three gigawatts.
+
+11
+00:00:42,231 --> 00:00:45,685
+The solid line shows the forecast that was eligible at the cutoff.
+
+12
+00:00:45,685 --> 00:00:48,851
+The dashed line shows the actual outturn, available afterwards for evaluation.
+
+13
+00:00:48,851 --> 00:00:52,018
+The daily mean absolute error is one point zero nine gigawatts.
+
+14
+00:00:52,018 --> 00:00:55,472
+These actuals are hindsight, clearly separated from information used for the decision.
+
+15
+00:00:56,122 --> 00:00:59,345
+Changing the cutoff to nine twenty makes the point-in-time rule tangible.
+
+16
+00:00:59,345 --> 00:01:04,033
+The nine thirty publication is now too late, so the app selects the earlier eligible forecast.
+
+17
+00:01:04,033 --> 00:01:06,670
+The mean changes to eleven point six one gigawatts.
+
+18
+00:01:06,670 --> 00:01:12,824
+A chart based on today's latest revision would miss that distinction and could make historical performance look better than it was.
+
+19
+00:01:12,824 --> 00:01:18,391
+Wind Procure selects a forecast separately for every delivery target, using only publications at or before the chosen cutoff.
+
+20
+00:01:18,391 --> 00:01:23,080
+The available presets cover N two E X, E P E X and an early review.
+
+21
+00:01:23,730 --> 00:01:27,005
+The forecast explorer shows exactly what was published and when.
+
+22
+00:01:27,005 --> 00:01:30,607
+For the nine fifty decision, the nine thirty issue is selected.
+
+23
+00:01:30,607 --> 00:01:34,210
+Later issues remain visible for auditing, but are marked as excluded.
+
+24
+00:01:34,210 --> 00:01:38,140
+The settlement table also preserves each target's publication time and lead time.
+
+25
+00:01:38,140 --> 00:01:44,035
+There is an important coverage detail: the retrieved forecast series has hourly targets, while actual outturn is half-hourly.
+
+26
+00:01:44,035 --> 00:01:46,328
+We compare exact matching start times only.
+
+27
+00:01:46,328 --> 00:01:47,965
+Missing half-hour forecasts stay missing.
+
+28
+00:01:47,965 --> 00:01:53,533
+The monthly evaluation therefore has seven hundred and forty-four matched points, rather than an invented full profile.
+
+29
+00:01:54,183 --> 00:01:58,499
+At the nine fifty cutoff, the January mean absolute error is about two gigawatts.
+
+30
+00:01:58,499 --> 00:02:02,507
+Root mean square error is two point five gigawatts, so larger misses matter.
+
+31
+00:02:02,507 --> 00:02:07,747
+The positive bias of one point seven three gigawatts means the forecast tended to exceed the outturn.
+
+32
+00:02:07,747 --> 00:02:10,214
+Over eighty-four percent of matched targets overforecast wind.
+
+33
+00:02:10,214 --> 00:02:13,296
+Weighted absolute percentage error is seventeen point six eight percent.
+
+34
+00:02:13,296 --> 00:02:15,763
+The daily bars help identify days worth reviewing.
+
+35
+00:02:15,763 --> 00:02:24,086
+These figures describe the difference between the requested Elexon series; metering scope and curtailment may also contribute, so this is not a pure attribution of forecast skill.
+
+36
+00:02:24,736 --> 00:02:27,705
+The decision brief adds an empirical wind shortfall scenario.
+
+37
+00:02:27,705 --> 00:02:33,973
+It uses up to fourteen earlier completed delivery days, and only actual records published by the historical decision cutoff.
+
+38
+00:02:33,973 --> 00:02:36,282
+At least forty-eight matched points are required.
+
+39
+00:02:36,282 --> 00:02:43,540
+For the fourteenth of January, the historical ninetieth-percentile shortfall is four point six gigawatts, based on two hundred and eighty-eight earlier points.
+
+40
+00:02:43,540 --> 00:02:46,509
+Early January deliberately shows insufficient history, as seen here.
+
+41
+00:02:46,509 --> 00:02:50,468
+This scenario is not a calibrated confidence interval or a purchase instruction.
+
+42
+00:02:50,468 --> 00:02:54,426
+It makes uncertainty visible without suggesting more certainty than the data support.
+
+43
+00:02:55,076 --> 00:03:02,665
+The team can export a decision brief, the forty-eight-period settlement C S V, or a J S O N evidence bundle with source provenance.
+
+44
+00:03:02,665 --> 00:03:06,144
+The methodology page explains every assumption and links the original datasets.
+
+45
+00:03:06,144 --> 00:03:13,100
+The result is a shared basis for a procurement conversation: a known forecast, a quantified historical error, and a traceable decision cutoff.
+
+46
+00:03:13,100 --> 00:03:17,527
+This pilot does not know the client's demand, contracted wind share or other resources.
+
+47
+00:03:17,527 --> 00:03:20,057
+A portfolio-specific purchase quantity needs those additional inputs.
+
+48
+00:03:20,057 --> 00:03:25,432
+The value here is a transparent national wind signal that a trading team can inspect and challenge.
+
+49
+00:03:26,082 --> 00:03:28,131
+Now for the internal technical review.
+
+50
+00:03:28,131 --> 00:03:29,839
+The architecture has three boundaries.
+
+51
+00:03:29,839 --> 00:03:33,596
+An offline Python ingestion command retrieves and validates the Elexon records.
+
+52
+00:03:33,596 --> 00:03:38,719
+A deterministic analysis layer indexes revisions, selects admissible forecasts, joins exact timestamps and calculates metrics.
+
+53
+00:03:38,719 --> 00:03:43,159
+Fast A P I exposes the results to a React and TypeScript frontend.
+
+54
+00:03:43,159 --> 00:03:47,940
+The fixed archive is small enough that a database is unnecessary for this pilot.
+
+55
+00:03:47,940 --> 00:03:52,722
+The production request path makes no upstream network call and writes no persistent state.
+
+56
+00:03:52,722 --> 00:03:56,820
+This keeps the historical replay reproducible and suitable for a serverless deployment.
+
+57
+00:03:57,470 --> 00:04:04,846
+In backend slash ingest dot py, forecast requests filter publication windows, while actual requests filter settlement dates and wind fuel type.
+
+58
+00:04:04,846 --> 00:04:10,114
+Forecast context begins on the thirty-first of December; actual context includes the first of January.
+
+59
+00:04:10,114 --> 00:04:13,275
+The decision evaluation itself stays strictly within January decisions.
+
+60
+00:04:13,275 --> 00:04:21,704
+There are sixty-four archived daily source requests, eighteen thousand six hundred and eighty-eight forecast revisions, and one thousand five hundred and thirty-six wind actuals.
+
+61
+00:04:21,704 --> 00:04:23,460
+Bounded retries handle transient failures.
+
+62
+00:04:23,460 --> 00:04:26,973
+Identical duplicate keys are collapsed; conflicting equal-publication values fail validation.
+
+63
+00:04:26,973 --> 00:04:31,890
+Every response has a retrieval timestamp and a S H A two fifty-six hash.
+
+64
+00:04:32,540 --> 00:04:35,979
+The key implementation is in backend slash analysis dot py.
+
+65
+00:04:35,979 --> 00:04:38,731
+Each target's revisions are sorted by publication time.
+
+66
+00:04:38,731 --> 00:04:43,546
+A binary search chooses the latest publication less than or equal to the cutoff.
+
+67
+00:04:43,546 --> 00:04:47,674
+Selection is per target, rather than assuming that one file contains everything.
+
+68
+00:04:47,674 --> 00:04:50,426
+A forty-eight-period delivery grid preserves every actual half-hour.
+
+69
+00:04:50,426 --> 00:04:56,961
+Forecasts and actuals join only on identical target timestamps; missing values remain null, and zero is a valid observation.
+
+70
+00:04:56,961 --> 00:04:59,369
+Error is forecast minus actual in megawatts.
+
+71
+00:04:59,369 --> 00:05:04,184
+The frontend converts to gigawatts only for presentation, and never recalculates the statistical results.
+
+72
+00:05:04,834 --> 00:05:06,861
+There are two distinct actual-data views.
+
+73
+00:05:06,861 --> 00:05:08,888
+Retrospective evaluation uses the archived outturn.
+
+74
+00:05:08,888 --> 00:05:15,307
+Decision-time risk restricts actual revisions to those published by the historical current cutoff, and also excludes incomplete delivery days.
+
+75
+00:05:15,307 --> 00:05:18,685
+Earlier forecasts are selected using their own original decision cutoff.
+
+76
+00:05:18,685 --> 00:05:24,428
+This avoids a subtler form of leakage in which future actuals train an apparently historical risk estimate.
+
+77
+00:05:24,428 --> 00:05:30,846
+The tests verify that adding a later forecast or a future actual revision cannot change the selected decision-time risk.
+
+78
+00:05:30,846 --> 00:05:36,252
+The empirical quantile is deliberately simple, with its sample count and limitations exposed to the user.
+
+79
+00:05:36,902 --> 00:05:40,583
+The H T T P layer is in backend slash app dot py.
+
+80
+00:05:40,583 --> 00:05:44,830
+It validates January decision dates and twenty-four-hour cutoff strings, returning four twenty-two for invalid inputs.
+
+81
+00:05:44,830 --> 00:05:49,361
+Day, month, metadata, C S V and health endpoints are documented through Fast A P I.
+
+82
+00:05:49,361 --> 00:05:55,308
+On the frontend, src slash data dot t s owns abortable requests and exports; the chart components are S V G.
+
+83
+00:05:55,308 --> 00:06:00,405
+A static Q A preview can load results generated by the same Python code, and is explicitly labeled.
+
+84
+00:06:00,405 --> 00:06:04,369
+The public Vercel app is confirmed to use the real Python A P I.
+
+85
+00:06:05,019 --> 00:06:07,897
+The verification suite focuses on the analytical contract.
+
+86
+00:06:07,897 --> 00:06:16,171
+Fifteen backend tests passed, covering cutoff equality, future revision exclusion, per-target selection, missing data, valid zeros, metric arithmetic and the February delivery boundary.
+
+87
+00:06:16,171 --> 00:06:20,129
+They also compare the Python-generated preview with the A P I.
+
+88
+00:06:20,129 --> 00:06:22,287
+TypeScript and the production build passed.
+
+89
+00:06:22,287 --> 00:06:26,964
+Anonymous requests to the live deployment returned the application and Python endpoints successfully.
+
+90
+00:06:26,964 --> 00:06:34,159
+Browser checks covered cutoff changes, publication history, filters, an empty search, date boundaries and a real C S V download.
+
+91
+00:06:34,159 --> 00:06:38,476
+The source package records both the checks performed and the environment limits.
+
+92
+00:06:39,126 --> 00:06:46,227
+For local reproduction, Docker Compose builds the React frontend in a Node stage, then runs the Python application as a non-root user.
+
+93
+00:06:46,227 --> 00:06:50,100
+The container honors the port environment variable and has a health check.
+
+94
+00:06:50,100 --> 00:06:54,619
+Without Docker, npm run dev colon full starts both development services after dependency installation.
+
+95
+00:06:54,619 --> 00:07:02,366
+Docker itself was not available in this execution environment, so its local build is not claimed as verified; a continuous-integration smoke test is supplied.
+
+96
+00:07:02,366 --> 00:07:07,854
+Production is deployed on Vercel, with the compressed archive bundled alongside the Python function and static frontend.
+
+97
+00:07:07,854 --> 00:07:11,081
+No secrets or new Elexon request are needed at runtime.
+
+98
+00:07:11,731 --> 00:07:20,013
+The R E A D M E maps every directory, explains startup and deployment, and explicitly discloses Chat G P T and Codex assistance.
+
+99
+00:07:20,013 --> 00:07:23,809
+This demonstration uses a generic synthesized narrator, not the candidate's voice.
+
+100
+00:07:23,809 --> 00:07:27,259
+The technical design and analysis notes make knowledge transfer straightforward.
+
+101
+00:07:27,259 --> 00:07:34,160
+For a production phase, first reconcile the forecast and outturn coverage, then add authorized portfolio demand, contracts and allocation inputs.
+
+102
+00:07:34,160 --> 00:07:36,921
+A longer approved history would support stronger calibration.
+
+103
+00:07:36,921 --> 00:07:45,202
+This first version delivers a usable, publicly accessible portal and a reproducible analysis, with each claim tied to the evidence the pilot actually has.
