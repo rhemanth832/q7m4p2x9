@@ -5,7 +5,8 @@
 **Application:** https://q7m4p2x9.vercel.app/  
 **API health:** https://q7m4p2x9.vercel.app/api/health  
 **Interactive API reference:** https://q7m4p2x9.vercel.app/docs  
-**Suggested anonymous repository name:** `q7m4p2x9`
+**Source repository:** https://github.com/rhemanth832/q7m4p2x9  
+**Video demonstration (unlisted, 9:14):** https://youtu.be/6ldSakPzTzk
 
 This pilot answers two questions: *What wind forecast could the team actually have seen at its decision cutoff? How large and directional were its historical errors?* It uses only Elexon's WINDFOR forecasts and FUELHH records with `fuelType=WIND`.
 
@@ -170,13 +171,15 @@ Or import a public GitHub repository into Vercel. Keep the repository root as th
 
 ## Video and submission
 
-The deliverable package includes a narrated MP4 with a customer pilot presentation and an internal technical walkthrough, plus a transcript and captions. The voice is synthesized and does not impersonate the candidate. Review the video and, if preferred, record the supplied script in your own voice.
+**Published demonstration:** [Watch on YouTube](https://youtu.be/6ldSakPzTzk) — **Unlisted**, approximately **9 minutes 14 seconds**. The customer presentation is 4 minutes 22 seconds and the internal technical review is 4 minutes 52 seconds; both parts are under five minutes.
 
-**An unlisted YouTube upload is still an external account step unless a verified link is recorded in `docs/SUBMISSION.md`. Do not submit the challenge without its required YouTube video.** The challenge text supplied no actual submission-form URL. Public GitHub repository creation and the form must be verified independently; a ZIP is not a substitute for the required public repository.
+The demonstration uses real application views and a generic Microsoft Indian English male synthesized voice. It does not impersonate the candidate. Anonymous YouTube metadata checked on 24 October 2026 reported unlisted visibility, a 554-second duration, and playability status OK.
+
+The [public source repository](https://github.com/rhemanth832/q7m4p2x9), live app, and video links are recorded in [docs/SUBMISSION.md](docs/SUBMISSION.md). The submission form URL has not been supplied, and the form has not been submitted.
 
 ## AI assistance disclosure
 
-**AI tools were used.** OpenAI ChatGPT/Codex assisted with domain research, architecture, implementation, tests, UI design, documentation, review and the demonstration script. The optional demonstration narration uses the open-source Piper text-to-speech engine and a generic licensed voice model. Elexon data and reported metrics are real retrieved observations and deterministic Python calculations. No AI-generated generation data or fabricated results were used.
+**AI tools were used.** OpenAI ChatGPT/Codex assisted with domain research, architecture, implementation, tests, UI design, documentation, review and the demonstration script. The published demonstration narration uses Microsoft's generic Indian English male voice, `en-IN-PrabhatNeural`, approved by the candidate. Elexon data and reported metrics are real retrieved observations and deterministic Python calculations. No AI-generated generation data or fabricated results were used.
 
 ## Attribution
 
